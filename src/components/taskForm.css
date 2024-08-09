@@ -37,4 +37,7 @@
     background-color: black;
     height: 4vh;
     cursor: pointer;
+    border-style: hidden;
+    margin-top: .1rem;
+    border-radius: 3px;
 }
