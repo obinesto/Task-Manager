@@ -29,28 +29,34 @@ import ContactUs from "./Components/ContactUs"
 import PrivacyPolicy from "./Components/PrivacyPolicy"
 import TermsOfService from "./Components/TermsOfService"
 import NotFound from "./Components/NotFound";
-import { ToastContainer, toast } from "react-toastify";
 import { Toaster } from "./Components/ui/toaster";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "./hooks/use-toast";
 
 const queryClient = new QueryClient();
 
 const App = ({ children }) => {
-  const notify = (message, notificationType) =>
-    toast(message, {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "dark",
-      type: notificationType,
-      style: {
-        fontFamily: "'Poppins', sans-serif",
-        borderRadius: "8px",
-      },
+  const notify = (message, notificationType = "default") => {
+    const variantByType = {
+      success: "success",
+      error: "destructive",
+      info: "info",
+      warning: "warning",
+      default: "default",
+    };
+    const titleByType = {
+      success: "Success",
+      error: "Something went wrong",
+      info: "Heads up",
+      warning: "Needs attention",
+      default: "TaskManager",
+    };
+
+    toast({
+      title: titleByType[notificationType] || titleByType.default,
+      description: message,
+      variant: variantByType[notificationType] || variantByType.default,
     });
+  };
 
   const Layout = () => {
     const location = useLocation();
@@ -124,7 +130,6 @@ const App = ({ children }) => {
                 <ModeToggle />
                 <Layout />
                 <Toaster />
-                <ToastContainer />
                 {children}
               </ThemeProvider>
             </Router>
